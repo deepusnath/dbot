@@ -1,7 +1,15 @@
 import discord
+import requests
+import json
 
 
 client = discord.Client()
+
+def get_quote():
+  response = requests.get("https://zenquotes.io/api/random")
+  json_data = json.loads(response.text)
+  quote = json_data[0]['q'] + " -" + json_data[0]['a']
+  return(quote)
 
 @client.event
 async def on_ready():
@@ -13,6 +21,7 @@ async def on_message(message):
         return
 
     if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
+        quote = get_quote()
+        await message.channel.send(quote)
 
-client.run('_p8NYuNEQK6A1-NQIAzXiZHm8r94Cd0F') 
+client.run('ODYxMDcyMzY0OTEyNTA4OTI4.YOEeIQ.kdkPoNQH0FuBBP7m7DsWfPhnuCY') 
